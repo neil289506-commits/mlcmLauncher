@@ -1282,8 +1282,8 @@ bool Application::createSetupWizard()
         }
         if (!validWidgets) {
 #if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
-            const QString style =
-                QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark ? QStringLiteral("dark") : QStringLiteral("bright");
+            // MLCM is the default look of this launcher
+            const QString style = QStringLiteral("mlcm");
 #else
             const QString style = QStringLiteral("system");
 #endif

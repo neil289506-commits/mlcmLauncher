@@ -37,6 +37,7 @@
 #include <QApplication>
 #include <QDebug>
 #include <QPainter>
+#include <QPainterPath>
 #include <QTextLayout>
 #include <QTextOption>
 #include <QtMath>
@@ -69,15 +70,49 @@ static void viewItemTextLayout(QTextLayout& textLayout, int lineWidth, qreal& he
 
 ListViewDelegate::ListViewDelegate(QObject* parent) : QStyledItemDelegate(parent) {}
 
-void drawSelectionRect(QPainter* painter, const QStyleOptionViewItem& option, const QRect& rect)
+// Card geometry: the item rect is 120px wide (see InstanceView::m_itemWidth), the card is inset so neighbouring cards
+// keep a visible gap. Modrinth style rounded cards, Minecraft Launcher style flat dark surface.
+namespace {
+constexpr int kItemWidth = 120;
+constexpr int kCardInset = 4;
+constexpr int kCardPadding = 8;
+constexpr int kCardRadius = 8;
+constexpr int kIconSize = 64;
+constexpr int kIconGap = 6;
+constexpr int kTextWidth = kItemWidth - 2 * kCardInset - 2 * kCardPadding;
+
+QColor mixColors(const QColor& a, const QColor& b, qreal t)
 {
-    if ((option.state & QStyle::State_Selected))
-        painter->fillRect(rect, option.palette.brush(QPalette::Highlight));
-    else {
-        QColor backgroundColor = option.palette.color(QPalette::Window);
-        backgroundColor.setAlpha(160);
-        painter->fillRect(rect, QBrush(backgroundColor));
-    }
+    return QColor::fromRgbF(a.redF() * (1.0 - t) + b.redF() * t, a.greenF() * (1.0 - t) + b.greenF() * t,
+                            a.blueF() * (1.0 - t) + b.blueF() * t);
+}
+}  // namespace
+
+static void drawCard(QPainter* painter, const QStyleOptionViewItem& option, const QRect& cardRect)
+{
+    const bool selected = option.state & QStyle::State_Selected;
+    const bool hovered = option.state & QStyle::State_MouseOver;
+
+    const QColor surface = option.palette.color(QPalette::Button);
+    const QColor accent = option.palette.color(QPalette::Highlight);
+
+    QColor fill = surface;
+    if (hovered)
+        fill = fill.lightness() < 128 ? fill.lighter(118) : fill.darker(106);
+    if (selected)
+        fill = mixColors(fill, accent, 0.30);
+
+    QColor border = surface.lightness() < 128 ? surface.lighter(145) : surface.darker(118);
+    if (selected)
+        border = accent.lighter(150);
+
+    painter->save();
+    painter->setRenderHint(QPainter::Antialiasing, true);
+    painter->setBrush(fill);
+    painter->setPen(QPen(border, selected ? 2.0 : 1.0));
+    const QRectF rect = QRectF(cardRect).adjusted(1.0, 1.0, -1.0, -1.0);
+    painter->drawRoundedRect(rect, kCardRadius, kCardRadius);
+    painter->restore();
 }
 
 void drawBadges(QPainter* painter, const QStyleOptionViewItem& option, BaseInstance* instance, QIcon::Mode mode, QIcon::State state)
@@ -123,7 +158,7 @@ static QSize viewItemTextSize(const QStyleOptionViewItem* option)
     textLayout.setFont(option->font);
     textLayout.setText(option->text);
     const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin, option, option->widget) + 1;
-    QRect bounds(0, 0, 100 - 2 * textMargin, 600);
+    QRect bounds(0, 0, kTextWidth - 2 * textMargin, 600);
     qreal height = 0, widthUsed = 0;
     viewItemTextLayout(textLayout, bounds.width(), height, widthUsed);
     const QSize size(qCeil(widthUsed), qCeil(height));
@@ -144,18 +179,14 @@ void ListViewDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
 
     QStyle* style = opt.widget ? opt.widget->style() : QApplication::style();
 
-    const int iconSize = 48;
-    QRect iconbox = opt.rect;
+    const QRect cardRect = opt.rect.adjusted(kCardInset, kCardInset, -kCardInset, -kCardInset);
     const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin, 0, opt.widget) + 1;
-    QRect textRect = opt.rect;
-    QRect textHighlightRect = textRect;
-    // clip the decoration on top, remove width padding
-    textRect.adjust(textMargin, iconSize + textMargin + 5, -textMargin, 0);
 
-    textHighlightRect.adjust(0, iconSize + 5, 0, 0);
+    QRect iconbox(cardRect.left(), cardRect.top() + kCardPadding, cardRect.width(), kIconSize);
+    QRect textRect = cardRect.adjusted(kCardPadding + textMargin, kCardPadding + kIconSize + kIconGap, -(kCardPadding + textMargin), 0);
 
-    // draw background
-    drawSelectionRect(painter, opt, textHighlightRect);
+    // draw background card
+    drawCard(painter, opt, cardRect);
 
     // icon mode and state, also used for badges
     QIcon::Mode mode = QIcon::Normal;
@@ -166,19 +197,13 @@ void ListViewDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
     QIcon::State state = opt.state & QStyle::State_Open ? QIcon::On : QIcon::Off;
 
     // draw the icon
-    {
-        iconbox.setHeight(iconSize);
-        opt.icon.paint(painter, iconbox, Qt::AlignCenter, mode, state);
-    }
-    // set the text colors
+    opt.icon.paint(painter, iconbox, Qt::AlignCenter, mode, state);
+
+    // set the text colors (the card carries the selection colour, so the text keeps the normal text colour)
     QPalette::ColorGroup cg = opt.state & QStyle::State_Enabled ? QPalette::Normal : QPalette::Disabled;
     if (cg == QPalette::Normal && !(opt.state & QStyle::State_Active))
         cg = QPalette::Inactive;
-    if (opt.state & QStyle::State_Selected) {
-        painter->setPen(opt.palette.color(cg, QPalette::HighlightedText));
-    } else {
-        painter->setPen(opt.palette.color(cg, QPalette::Text));
-    }
+    painter->setPen(opt.palette.color(cg, QPalette::Text));
 
     // draw the text
     QTextOption textOption;
@@ -205,7 +230,10 @@ void ListViewDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
     // FIXME: this really has no business of being here. Make generic.
     auto instance = (BaseInstance*)index.data(InstanceList::InstancePointerRole).value<void*>();
     if (instance) {
-        drawBadges(painter, opt, instance, mode, state);
+        // badges live in the top right corner of the card
+        QStyleOptionViewItem badgeOption = opt;
+        badgeOption.rect = cardRect;
+        drawBadges(painter, badgeOption, instance, mode, state);
     }
 
     painter->restore();
@@ -220,14 +248,11 @@ QSize ListViewDelegate::sizeHint(const QStyleOptionViewItem& option, const QMode
     opt.textElideMode = Qt::ElideRight;
     opt.displayAlignment = Qt::AlignTop | Qt::AlignHCenter;
 
-    QStyle* style = opt.widget ? opt.widget->style() : QApplication::style();
-    const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin, &option, opt.widget) + 1;
-    int height = 48 + textMargin * 2 + 5;  // TODO: turn constants into variables
+    int height = 2 * kCardInset + 2 * kCardPadding + kIconSize + kIconGap;
     QSize szz = viewItemTextSize(&opt);
     height += szz.height();
     // FIXME: maybe the icon items could scale and keep proportions?
-    QSize sz(100, height);
-    return sz;
+    return QSize(kItemWidth, height);
 }
 
 class NoReturnTextEdit : public QTextEdit {
@@ -263,9 +288,9 @@ void ListViewDelegate::updateEditorGeometry(QWidget* editor,
                                             const QStyleOptionViewItem& option,
                                             [[maybe_unused]] const QModelIndex& index) const
 {
-    const int iconSize = 48;
     QRect textRect = option.rect;
-    textRect.adjust(0, iconSize + 5, 0, 0);
+    textRect.adjust(kCardInset + kCardPadding, kCardInset + kCardPadding + kIconSize + kIconGap - 2, -(kCardInset + kCardPadding),
+                    -(kCardInset + 2));
     editor->setGeometry(textRect);
 }
 
@@ -299,6 +324,7 @@ QWidget* ListViewDelegate::createEditor(QWidget* parent,
                                         [[maybe_unused]] const QModelIndex& index) const
 {
     auto editor = new NoReturnTextEdit(parent);
+    editor->setStyleSheet(QStringLiteral("QTextEdit { padding: 0px; }"));
     connect(editor, &NoReturnTextEdit::editingDone, this, &ListViewDelegate::editingDone);
     return editor;
 }

@@ -27,6 +27,9 @@ class WideBar : public QToolBar {
     void insertActionAfter(QAction* after, QAction* action);
     void insertWidgetBefore(QAction* before, QWidget* widget);
 
+    /// Returns the tool button created for the given action (null if the action is not in this bar).
+    QWidget* widgetForMenuAction(QAction* action);
+
     QMenu* createContextMenu(QWidget* parent = nullptr, const QString& title = QString());
 
     void removeAction(QAction* action);

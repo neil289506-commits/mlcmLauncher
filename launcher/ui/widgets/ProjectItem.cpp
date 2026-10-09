@@ -24,16 +24,31 @@ void ProjectItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& o
 
     auto rect = opt.rect;
 
-    bool windows = style->objectName().startsWith("windows");
+    {  // Modrinth / CurseForge style result card: rounded surface, accent ring when selected
+        const QColor surface = opt.palette.color(QPalette::Button);
+        const QColor accent = opt.palette.color(QPalette::Highlight);
+        auto mix = [](const QColor& a, const QColor& b, qreal t) {
+            return QColor::fromRgbF(a.redF() * (1.0 - t) + b.redF() * t, a.greenF() * (1.0 - t) + b.greenF() * t,
+                                    a.blueF() * (1.0 - t) + b.blueF() * t);
+        };
 
-    if (!windows)
-        style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
+        QColor fill = surface;
+        if ((opt.state & QStyle::State_MouseOver) && !isSelected)
+            fill = fill.lightness() < 128 ? fill.lighter(118) : fill.darker(106);
+        if (isSelected)
+            fill = mix(fill, accent, 0.30);
 
-    if (isSelected) {
-        if (windows)
-            painter->fillRect(rect, opt.palette.highlight());
+        QColor border = surface.lightness() < 128 ? surface.lighter(145) : surface.darker(118);
+        if (isSelected)
+            border = accent.lighter(150);
 
-        painter->setPen(opt.palette.highlightedText().color());
+        painter->setRenderHint(QPainter::Antialiasing, true);
+        painter->setBrush(fill);
+        painter->setPen(QPen(border, isSelected ? 2.0 : 1.0));
+        painter->drawRoundedRect(QRectF(rect).adjusted(3.0, 3.0, -3.0, -3.0), 8, 8);
+
+        // the card carries the selection colour, so the text keeps the normal text colour
+        painter->setPen(opt.palette.color(QPalette::Text));
     }
 
     if (opt.features & QStyleOptionViewItem::HasCheckIndicator) {
