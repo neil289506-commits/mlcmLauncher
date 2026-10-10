@@ -21,41 +21,6 @@
             }
         },
         {
-            "name": "linux",
-            "displayName": "Linux",
-            "inherits": [
-                "base"
-            ],
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Linux"
-            }
-        },
-        {
-            "name": "macos",
-            "displayName": "macOS",
-            "inherits": [
-                "base"
-            ],
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Darwin"
-            }
-        },
-        {
-            "name": "macos_universal",
-            "displayName": "macOS (Universal Binary)",
-            "inherits": [
-                "macos"
-            ],
-            "cacheVariables": {
-                "CMAKE_OSX_ARCHITECTURES": "x86_64;arm64",
-                "VCPKG_TARGET_TRIPLET": "universal-osx"
-            }
-        },
-        {
             "name": "windows_mingw",
             "displayName": "Windows (MinGW)",
             "inherits": [
@@ -81,34 +46,6 @@
         }
     ],
     "buildPresets": [
-        {
-            "name": "linux",
-            "displayName": "Linux",
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Linux"
-            },
-            "configurePreset": "linux"
-        },
-        {
-            "name": "macos",
-            "displayName": "macOS",
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Darwin"
-            },
-            "configurePreset": "macos"
-        },
-        {
-            "name": "macos_universal",
-            "displayName": "macOS (Universal Binary)",
-            "inherits": [
-                "macos"
-            ],
-            "configurePreset": "macos_universal"
-        },
         {
             "name": "windows_mingw",
             "displayName": "Windows (MinGW)",
@@ -146,45 +83,6 @@
                     "name": "^example64|example$"
                 }
             }
-        },
-        {
-            "name": "linux",
-            "displayName": "Linux",
-            "inherits": [
-                "base"
-            ],
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Linux"
-            },
-            "configurePreset": "linux"
-        },
-        {
-            "name": "macos",
-            "displayName": "macOS",
-            "inherits": [
-                "base"
-            ],
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Darwin"
-            },
-            "configurePreset": "macos"
-        },
-        {
-            "name": "macos_universal",
-            "displayName": "macOS (Universal Binary)",
-            "inherits": [
-                "base"
-            ],
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Darwin"
-            },
-            "configurePreset": "macos_universal"
         },
         {
             "name": "windows_mingw",

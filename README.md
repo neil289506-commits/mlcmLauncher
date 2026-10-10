@@ -1,116 +1,89 @@
 <p align="center">
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="/program_info/org.prismlauncher.PrismLauncher.logo-darkmode.svg">
-  <source media="(prefers-color-scheme: light)" srcset="/program_info/org.prismlauncher.PrismLauncher.logo.svg">
-  <img alt="Prism Launcher" src="/program_info/org.prismlauncher.PrismLauncher.logo.svg" width="40%">
-</picture>
+  <img alt="MLCM Launcher" src="program_info/org.prismlauncher.PrismLauncher.svg" width="128">
 </p>
+
+<h1 align="center">MLCM Launcher</h1>
 
 <p align="center">
-  Prism Launcher is a custom launcher for Minecraft that allows you to easily manage multiple installations of Minecraft at once.<br />
-  <br />This is a <b>fork</b> of the MultiMC Launcher and is <b>not</b> endorsed by it.
+  以 <a href="https://github.com/PrismLauncher/PrismLauncher">Prism Launcher</a> 為核心、外觀完全重做的 Minecraft 啟動器。<br>
+  <sub>A Windows-first Minecraft launcher: Prism Launcher's engine with a redesigned interface.</sub>
 </p>
 
-## Installation
+---
 
-- All downloads and instructions for Prism Launcher can be found on our [Website](https://prismlauncher.org/download).
-- Last build status can be found in the [GitHub Actions](https://github.com/PrismLauncher/PrismLauncher/actions) tab (this also includes the pull requests status).
+## 這是什麼
 
-<p align="center">
-<a href="https://repology.org/project/prismlauncher/versions">
-    <img src="https://repology.org/badge/vertical-allrepos/prismlauncher.svg?columns=3" alt="Packaging status">
-</a>
-</p>
+MLCM Launcher 是 Prism Launcher 的分支（fork）。**啟動、實例管理、模組載入、帳號登入等核心邏輯沿用 Prism Launcher，不做改動**；這個專案只重做使用者介面。
 
-### Development Builds
+目前**只支援 Windows**。Linux 與 macOS 的打包、安裝與建置設定都已移除。
 
-Please understand that these builds are not intended for most users. There may be bugs, and other instabilities. You have been warned.
+> 專案仍在開發中。介面主要畫面已經換新，但部分對話框與設定頁只套用新配色，版面還是 Prism 原樣。
 
-There are development builds available through:
+## 設計
 
-- [GitHub Actions](https://github.com/PrismLauncher/PrismLauncher/actions) (includes builds from pull requests opened by contributors)
-- [nightly.link](https://prismlauncher.org/nightly) (this will always point only to the latest version of develop)
+介面風格由三個來源混合而成：
 
-These have debug information in the binaries, so their file sizes are relatively larger.
+| 比例 | 來源 | 用在哪裡 |
+| --- | --- | --- |
+| 60% | Minecraft Launcher | 深炭灰底色、立體草綠色「啟動」按鈕、經驗條風格的進度條、偏方正的控制項 |
+| 20% | CurseForge | 橘色行動按鈕（新增實例、對話框預設按鈕）、分頁與側邊欄的橘色選中指示 |
+| 20% | Modrinth | 圓角卡片（實例列表、模組瀏覽結果）、亮綠色聚焦框、細圓角滾動條 |
 
-Prebuilt Development builds are provided for **Linux**, **Windows** and **macOS**.
+主要改動：
 
-On Linux, we also offer our own [Flatpak nightly repository](https://github.com/PrismLauncher/flatpak). Most software centers are able to install it by opening [this link](https://flatpak.prismlauncher.org/prismlauncher-nightly.flatpakref).
+- **MLCM 主題**：全新的調色盤與樣式表，是新安裝時的預設主題。已經選過其他主題的使用者要到「設定 → 外觀」自行切換。
+- **實例列表**：每個實例是一張圓角卡片，選中時有亮綠色外框。
+- **右側工具列**：「啟動」是大型綠色按鈕，「強制結束」是紅色按鈕。
+- **模組瀏覽**：CurseForge／Modrinth 搜尋結果改為圓角卡片。
+- **應用程式圖示**：原創的稜鏡圖示——一道白光穿過綠色玻璃稜鏡，折射成橘色與兩種綠色。
 
-## Community & Support
+## 取得程式
 
-Feel free to create a GitHub issue if you find a bug or want to suggest a new feature. We have multiple community spaces where other community members can help you:
+目前沒有正式發佈版本。可以從 GitHub Actions 下載最新的 Windows 建置：
 
-- **Our Discord server:**
+1. 打開本倉庫的 **Actions** 分頁，選 **Build**。
+2. 進入最近一次成功的執行紀錄。
+3. 在頁面最下方的 **Artifacts** 下載 Windows 版，解壓後執行。
 
-[![Prism Launcher Discord server](https://discordapp.com/api/guilds/1031648380885147709/widget.png?style=banner3)](https://prismlauncher.org/discord)
+## 自行建置
 
-- **Our Matrix space:**
+需求：
 
-[![Prism Launcher Space](https://img.shields.io/matrix/prismlauncher:matrix.org?style=for-the-badge&label=Matrix%20Space&logo=matrix&color=purple)](https://prismlauncher.org/matrix)
+- Windows 10 / 11 x64
+- Visual Studio 2022（含「使用 C++ 的桌面開發」）
+- Qt 6.11（MSVC 2022 64-bit），CI 使用 6.11.2
+- CMake 與 Ninja
+- Git（需要拉取子模組：`libnbtplusplus` 與 `vcpkg`）
 
-- **Our Subreddit:**
+在「Developer PowerShell for VS 2022」中執行：
 
-[![r/PrismLauncher](https://img.shields.io/reddit/subreddit-subscribers/prismlauncher?style=for-the-badge&logo=reddit)](https://prismlauncher.org/reddit)
+```powershell
+git clone --recurse-submodules https://github.com/neil289506-commits/mlcmLauncher
+cd mlcmLauncher
 
-## Translations
+cmake --preset windows_msvc `
+  -D CMAKE_PREFIX_PATH="C:\Qt\6.11.2\msvc2022_64" `
+  -D VCPKG_HOST_TRIPLET=x64-windows `
+  -D VCPKG_TARGET_TRIPLET=x64-windows
 
-The translation effort for Prism Launcher is hosted on [Weblate](https://hosted.weblate.org/projects/prismlauncher/launcher/) and information about translating Prism Launcher is available at <https://github.com/PrismLauncher/Translations>.
+cmake --build --preset windows_msvc --config Release
+```
 
-## Building
+第一次設定會透過 vcpkg 編譯相依套件，需要比較久的時間。實際可行的建置流程以 `.github/workflows/build.yml` 為準。
 
-If you want to build Prism Launcher yourself, check the [build instructions](https://prismlauncher.org/wiki/development/build-instructions).
+## 專案結構
 
-## Sponsors & Partners
+| 路徑 | 內容 |
+| --- | --- |
+| `launcher/ui/themes/` | 主題系統；`MlcmTheme.*` 是 MLCM 主題（調色盤與樣式表） |
+| `launcher/ui/instanceview/` | 實例列表，卡片繪製在 `InstanceDelegate.cpp` |
+| `launcher/ui/widgets/ProjectItem.cpp` | 模組瀏覽結果卡片 |
+| `program_info/` | 品牌資源：`mlcm.ico`（Windows 圖示，在 `program_info/CMakeLists.txt` 宣告）、應用程式 SVG、安裝程式範本 |
+| `libraries/` | 內建函式庫 |
 
-We thank all the wonderful backers over at Open Collective! Support Prism Launcher by [becoming a backer](https://opencollective.com/prismlauncher).
+## 授權與致謝
 
-[![OpenCollective Backers](https://opencollective.com/prismlauncher/backers.svg?width=890&limit=1000)](https://opencollective.com/prismlauncher#backers)
-
-Thanks to JetBrains for providing us a few licenses for all their products, as part of their [Open Source program](https://www.jetbrains.com/opensource/).
-
-<a href="https://jb.gg/OpenSource">
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://www.jetbrains.com/company/brand/img/logo_jb_dos_4.svg">
-  <source media="(prefers-color-scheme: light)" srcset="https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg">
-  <img alt="JetBrains logo" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg" width="40%">
-</picture>
-</a>
-
-Thanks to Weblate for hosting our translation efforts.
-
-<a href="https://hosted.weblate.org/engage/prismlauncher/">
-<img src="https://hosted.weblate.org/widgets/prismlauncher/-/open-graph.png" alt="Translation status" width="300" />
-</a>
-
-Thanks to Netlify for providing us their excellent web services, as part of their [Open Source program](https://www.netlify.com/open-source/).
-
-<a href="https://www.netlify.com"> <img src="https://www.netlify.com/v3/img/components/netlify-color-accent.svg" alt="Deploys by Netlify" /> </a>
-
-Thanks to the awesome people over at [MacStadium](https://www.macstadium.com/), for providing M1-Macs for development purposes!
-
-<a href="https://www.macstadium.com"><img src="https://uploads-ssl.webflow.com/5ac3c046c82724970fc60918/5c019d917bba312af7553b49_MacStadium-developerlogo.png" alt="Powered by MacStadium" width="300"></a>
-
-## Forking/Redistributing/Custom builds policy
-
-You are free to fork, redistribute and provide custom builds as long as you follow the terms of the [license](LICENSE) (this is a legal responsibility), and if you made code changes rather than just packaging a custom build, please do the following as a basic courtesy:
-
-- Make it clear that your fork is not Prism Launcher and is not endorsed by or affiliated with the Prism Launcher project (<https://prismlauncher.org>).
-- Go through [CMakeLists.txt](CMakeLists.txt) and change Prism Launcher's API keys to your own or set them to empty strings (`""`) to disable them (this way the program will still compile but the functionality requiring those keys will be disabled).
-
-If you have any questions or want any clarification on the above conditions please make an issue and ask us.
-
-If you are just building Prism Launcher for your distribution, please make sure to set the `Launcher_BUILD_PLATFORM` to a slug representing your distribution. Examples are `archlinux`, `fedora` and `nixpkgs`.
-
-Note that if you build this software without removing the provided API keys in [CMakeLists.txt](CMakeLists.txt) you are accepting the following terms and conditions:
-
-- [Microsoft Identity Platform Terms of Use](https://docs.microsoft.com/en-us/legal/microsoft-identity-platform/terms-of-use)
-- [CurseForge 3rd Party API Terms and Conditions](https://support.curseforge.com/en/support/solutions/articles/9000207405-curse-forge-3rd-party-api-terms-and-conditions)
-
-If you do not agree with these terms and conditions, then remove the associated API keys from the [CMakeLists.txt](CMakeLists.txt) file by setting them to an empty string (`""`).
-
-## License [![https://github.com/PrismLauncher/PrismLauncher/blob/develop/LICENSE](https://img.shields.io/github/license/PrismLauncher/PrismLauncher?label=License&logo=gnu&color=C4282D)](LICENSE)
-
-All launcher code is available under the GPL-3.0-only license.
-
-The logo and related assets are under the CC BY-SA 4.0 license.
+- 本專案以 **GPL-3.0-only** 授權，見 [`LICENSE`](LICENSE) 與 [`COPYING.md`](COPYING.md)。
+- `program_info/` 資料夾內的標誌與品牌資源依 **CC BY-SA 4.0** 授權，見 [`program_info/LICENSE`](program_info/LICENSE)。
+- 核心程式碼來自 [Prism Launcher](https://github.com/PrismLauncher/PrismLauncher) 及其前身 PolyMC 與 MultiMC 的貢獻者，感謝他們的工作。
+- 本專案**不是** Prism Launcher、Mojang、Microsoft、CurseForge 或 Modrinth 的官方產品，也未獲得他們的背書。「Minecraft」是 Mojang Studios 的商標；CurseForge 與 Modrinth 的名稱僅用來說明設計靈感的來源。
