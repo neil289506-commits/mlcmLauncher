@@ -135,6 +135,15 @@ void WideBar::insertWidgetBefore(QAction* before, QWidget* widget)
     insertWidget(iter->bar_action, widget);
 }
 
+QWidget* WideBar::widgetForMenuAction(QAction* action)
+{
+    auto iter = getMatching(action);
+    if (iter == m_entries.end() || iter->type != BarEntry::Type::Action)
+        return nullptr;
+
+    return widgetForAction(iter->bar_action);
+}
+
 void WideBar::insertSpacer(QAction* action)
 {
     auto iter = getMatching(action);

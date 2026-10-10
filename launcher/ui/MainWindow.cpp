@@ -180,6 +180,17 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
         ui->instanceToolBar->insertWidgetBefore(ui->actionLaunchInstance, renameButton);
 
         ui->instanceToolBar->insertSeparator(ui->actionLaunchInstance);
+
+        // object names used by the MLCM theme to style the big PLAY / kill / add buttons
+        if (auto* launchButton = ui->instanceToolBar->widgetForMenuAction(ui->actionLaunchInstance)) {
+            launchButton->setObjectName(QStringLiteral("launchButton"));
+        }
+        if (auto* killButton = ui->instanceToolBar->widgetForMenuAction(ui->actionKillInstance)) {
+            killButton->setObjectName(QStringLiteral("killButton"));
+        }
+        if (auto* addInstanceButton = ui->mainToolBar->widgetForAction(ui->actionAddInstance)) {
+            addInstanceButton->setObjectName(QStringLiteral("addInstanceButton"));
+        }
     }
 
     // set the menu for the folders help, accounts, and export tool buttons
