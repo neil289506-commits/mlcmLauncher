@@ -1,13 +1,3 @@
-if(UNIX)
-    find_package(PkgConfig)
-    if(PkgConfig_FOUND)
-        pkg_search_module(SCDOC scdoc)
-        if(SCDOC_FOUND)
-            pkg_get_variable(SCDOC_SCDOC scdoc scdoc)
-        endif()
-    endif()
-endif()
-
 set(Launcher_CommonName "PrismLauncher")
 set(Launcher_DisplayName "Prism Launcher")
 set(Launcher_AppID "org.prismlauncher.PrismLauncher")
@@ -29,14 +19,10 @@ set(Launcher_ConfigFile "${Launcher_APP_BINARY_NAME}.cfg" PARENT_SCOPE)
 set(Launcher_AppID "${Launcher_AppID}" PARENT_SCOPE)
 set(Launcher_SVGFileName "${Launcher_SVGFileName}" PARENT_SCOPE)
 
-set(Launcher_Desktop "program_info/${Launcher_AppID}.desktop" PARENT_SCOPE)
-set(Launcher_MIMEInfo "program_info/${Launcher_AppID}.xml" PARENT_SCOPE)
-set(Launcher_MetaInfo "program_info/${Launcher_AppID}.metainfo.xml" PARENT_SCOPE)
-set(Launcher_PNG_256 "program_info/${Launcher_AppID}_256.png" PARENT_SCOPE)
 set(Launcher_SVG "program_info/${Launcher_SVGFileName}" PARENT_SCOPE)
-set(Launcher_Branding_ICNS "program_info/${Launcher_APP_BINARY_NAME}.icns" PARENT_SCOPE)
-set(Launcher_Branding_MAC_ICON "program_info/${Launcher_CommonName}.icon" PARENT_SCOPE)
-set(Launcher_Branding_ICO "program_info/${Launcher_APP_BINARY_NAME}.ico")
+# MLCM application icon (Windows .exe / installer). Source art: org.prismlauncher.PrismLauncher.svg
+set(Launcher_Branding_ICO_Name "mlcm.ico")
+set(Launcher_Branding_ICO "program_info/${Launcher_Branding_ICO_Name}")
 set(Launcher_Branding_ICO "${Launcher_Branding_ICO}" PARENT_SCOPE)
 set(Launcher_Branding_WindowsRC "program_info/${Launcher_APP_BINARY_NAME}.rc" PARENT_SCOPE)
 set(Launcher_Branding_LogoQRC "program_info/${Launcher_APP_BINARY_NAME}.qrc" PARENT_SCOPE)
@@ -44,14 +30,11 @@ set(Launcher_Authors "MultiMC & Prism Launcher Contributors")
 
 set(Launcher_Portable_File "program_info/portable.txt" PARENT_SCOPE)
 
-configure_file(${Launcher_AppID}.desktop.in ${Launcher_AppID}.desktop)
-configure_file(${Launcher_AppID}.metainfo.xml.in ${Launcher_AppID}.metainfo.xml)
 configure_file(${Launcher_APP_BINARY_NAME}.rc.in ${Launcher_APP_BINARY_NAME}.rc @ONLY)
 configure_file(${Launcher_APP_BINARY_NAME}.qrc.in ${Launcher_APP_BINARY_NAME}.qrc @ONLY)
 configure_file(${Launcher_APP_BINARY_NAME}.manifest.in ${Launcher_APP_BINARY_NAME}.manifest @ONLY)
-configure_file(${Launcher_APP_BINARY_NAME}.ico ${Launcher_APP_BINARY_NAME}.ico COPYONLY)
+configure_file(${Launcher_Branding_ICO_Name} ${Launcher_Branding_ICO_Name} COPYONLY)
 configure_file(${Launcher_SVGFileName} ${Launcher_SVGFileName} COPYONLY)
-configure_file(${Launcher_AppID}.mime.xml ${Launcher_AppID}.xml COPYONLY)
 
 if(MSVC)
     set(Launcher_MSVC_Redist_NSIS_Section [=[
@@ -78,17 +61,3 @@ SectionEnd
 endif()
 
 configure_file(win_install.nsi.in win_install.nsi @ONLY)
-
-if(SCDOC_FOUND)
-    configure_file(${Launcher_APP_BINARY_NAME}.6.scd.in ${Launcher_APP_BINARY_NAME}.6.scd @ONLY)
-
-    set(in_scd "${CMAKE_CURRENT_BINARY_DIR}/${Launcher_APP_BINARY_NAME}.6.scd")
-    set(out_man "${CMAKE_CURRENT_BINARY_DIR}/${Launcher_APP_BINARY_NAME}.6")
-    add_custom_command(
-        DEPENDS "${in_scd}"
-        OUTPUT "${out_man}"
-        COMMAND ${SCDOC_SCDOC} < "${in_scd}" > "${out_man}"
-    )
-    add_custom_target(man ALL DEPENDS ${out_man})
-    set(Launcher_ManPage "program_info/${Launcher_APP_BINARY_NAME}.6" PARENT_SCOPE)
-endif()
