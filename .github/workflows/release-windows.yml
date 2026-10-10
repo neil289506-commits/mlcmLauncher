@@ -1,0 +1,123 @@
+name: Build mlcmLauncher and Make Release
+
+on:
+  push:
+    tags:
+      - "*"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  build_release:
+    name: Build Windows Release
+    uses: ./.github/workflows/build.yml
+    permissions:
+      contents: read
+      # Required for Azure Trusted Signing, if enabled by build.yml
+      id-token: write
+      # Required for vcpkg binary cache, if enabled by build.yml
+      packages: write
+    with:
+      build-type: Release
+      environment: Release
+    secrets: inherit
+
+  create_release:
+    name: Package Windows Release
+    needs: build_release
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v8
+
+      - name: Get version
+        shell: bash
+        run: echo "VERSION=${GITHUB_REF_NAME}" >> "$GITHUB_ENV"
+
+      - name: Package Windows artifacts
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          shopt -s nullglob
+
+          # Keep the Windows build variants produced by build.yml.
+          # Create predictable release filenames and fail if no Windows
+          # artifacts were downloaded, rather than publishing an empty release.
+          found_windows_artifact=false
+
+          for d in PrismLauncher-Windows-MSVC* mlcmLauncher-Windows-MSVC*; do
+            [[ -d "$d" ]] || continue
+            found_windows_artifact=true
+            (
+              cd "$d"
+              legacy=""
+              arm64=""
+              portable=""
+              setup=""
+
+              [[ "$d" == *Legacy* ]] && legacy="-Legacy"
+              [[ "$d" == *arm64* ]] && arm64="-arm64"
+              [[ "$d" == *Portable* ]] && portable="-Portable"
+              [[ "$d" == *Setup* ]] && setup="-Setup"
+
+              name="mlcmLauncher-Windows-MSVC${legacy}${arm64}${portable}"
+
+              if [[ -n "$setup" ]]; then
+                exes=(mlcmLauncher-*.exe PrismLauncher-*.exe)
+                if (( ${#exes[@]} == 0 )); then
+                  echo "::error::No installer EXE found in $d"
+                  exit 1
+                fi
+                cp -- "${exes[0]}" "../${name}-Setup-${VERSION}.exe"
+              else
+                zip -r -9 "../${name}-${VERSION}.zip" .
+              fi
+            )
+          done
+
+          for d in PrismLauncher-Windows-MinGW-w64* mlcmLauncher-Windows-MinGW-w64*; do
+            [[ -d "$d" ]] || continue
+            found_windows_artifact=true
+            (
+              cd "$d"
+              portable=""
+              setup=""
+              [[ "$d" == *Portable* ]] && portable="-Portable"
+              [[ "$d" == *Setup* ]] && setup="-Setup"
+              name="mlcmLauncher-Windows-MinGW-w64${portable}"
+
+              if [[ -n "$setup" ]]; then
+                exes=(mlcmLauncher-*.exe PrismLauncher-*.exe)
+                if (( ${#exes[@]} == 0 )); then
+                  echo "::error::No installer EXE found in $d"
+                  exit 1
+                fi
+                cp -- "${exes[0]}" "../${name}-Setup-${VERSION}.exe"
+              else
+                zip -r -9 "../${name}-${VERSION}.zip" .
+              fi
+            )
+          done
+
+          if [[ "$found_windows_artifact" != true ]]; then
+            echo "::error::No Windows build artifact directories were found. Check the artifact names emitted by .github/workflows/build.yml."
+            echo "Downloaded files:"
+            find . -maxdepth 3 -type f -print
+            exit 1
+          fi
+
+      - name: Create draft release
+        uses: softprops/action-gh-release@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ github.ref_name }}
+          name: mlcmLauncher ${{ github.ref_name }}
+          draft: true
+          prerelease: false
+          fail_on_unmatched_files: true
+          files: |
+            mlcmLauncher-Windows-*-${{ github.ref_name }}.zip
+            mlcmLauncher-Windows-*-Setup-${{ github.ref_name }}.exe
