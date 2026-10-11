@@ -1069,6 +1069,8 @@ SET(LAUNCHER_SOURCES
     ui/pagedialog/PageDialog.h
     ui/dialogs/ProgressDialog.cpp
     ui/dialogs/ProgressDialog.h
+    ui/dialogs/PrismSync.cpp
+    ui/dialogs/PrismSync.h
     ui/dialogs/ReviewMessageBox.cpp
     ui/dialogs/ReviewMessageBox.h
     ui/dialogs/VersionSelectDialog.cpp

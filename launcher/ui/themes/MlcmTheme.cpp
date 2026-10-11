@@ -137,6 +137,19 @@ QToolButton:disabled {
     border-color: transparent;
 }
 
+/* Sync button in the status bar (Modrinth green) */
+QStatusBar QToolButton {
+    padding: 1px 10px;
+    margin: 1px 4px;
+    border-radius: 4px;
+    color: #1bd96a;
+    font-weight: bold;
+}
+QStatusBar QToolButton:hover {
+    background-color: #223329;
+    border-color: #1bd96a;
+}
+
 /* Instance header (icon + name) in the right-hand panel */
 QToolBar#instanceToolBar QToolButton#changeIconButton,
 QToolBar#instanceToolBar QToolButton#renameButton {

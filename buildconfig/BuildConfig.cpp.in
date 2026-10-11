@@ -43,6 +43,7 @@ Config::Config()
     // Name and copyright
     LAUNCHER_NAME = "@Launcher_Name@";
     LAUNCHER_APP_BINARY_NAME = "@Launcher_APP_BINARY_NAME@";
+    LAUNCHER_URL_SCHEME = "@Launcher_URL_SCHEME@";
     LAUNCHER_DISPLAYNAME = "@Launcher_DisplayName@";
     LAUNCHER_COPYRIGHT = "@Launcher_Copyright@";
     LAUNCHER_DOMAIN = "@Launcher_Domain@";
