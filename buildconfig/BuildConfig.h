@@ -47,6 +47,9 @@ class Config {
     Config();
     QString LAUNCHER_NAME;
     QString LAUNCHER_APP_BINARY_NAME;
+
+    /// URL scheme used for the Microsoft login callback and import links (see Launcher_URL_SCHEME)
+    QString LAUNCHER_URL_SCHEME;
     QString LAUNCHER_DISPLAYNAME;
     QString LAUNCHER_COPYRIGHT;
     QString LAUNCHER_DOMAIN;

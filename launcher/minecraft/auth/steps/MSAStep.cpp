@@ -53,14 +53,14 @@ bool isSchemeHandlerRegistered()
 {
 #ifdef Q_OS_LINUX
     QProcess process;
-    process.start("xdg-mime", { "query", "default", "x-scheme-handler/" + BuildConfig.LAUNCHER_APP_BINARY_NAME });
+    process.start("xdg-mime", { "query", "default", "x-scheme-handler/" + BuildConfig.LAUNCHER_URL_SCHEME });
     process.waitForFinished();
     QString output = process.readAllStandardOutput().trimmed();
 
     return output.contains(APPLICATION->desktopFileName());
 
 #elif defined(Q_OS_WIN)
-    QString regPath = QString("HKEY_CURRENT_USER\\Software\\Classes\\%1").arg(BuildConfig.LAUNCHER_APP_BINARY_NAME);
+    QString regPath = QString("HKEY_CURRENT_USER\\Software\\Classes\\%1").arg(BuildConfig.LAUNCHER_URL_SCHEME);
     QSettings settings(regPath, QSettings::NativeFormat);
 
     const QString registeredRunCommand = settings.value("shell/open/command/.").toString().replace("\\", "/");
@@ -81,7 +81,7 @@ class CustomOAuthOobReplyHandler : public QOAuthOobReplyHandler {
     {
         disconnect(APPLICATION, &Application::oauthReplyRecieved, this, &QOAuthOobReplyHandler::callbackReceived);
     }
-    QString callback() const override { return BuildConfig.LAUNCHER_APP_BINARY_NAME + "://oauth/microsoft"; }
+    QString callback() const override { return BuildConfig.LAUNCHER_URL_SCHEME + "://oauth/microsoft"; }
 
    protected:
     void networkReplyFinished(QNetworkReply* reply) override

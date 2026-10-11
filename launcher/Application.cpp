@@ -595,13 +595,17 @@ Application::Application(int& argc, char** argv) : QApplication(argc, argv)
     }
 
     {
-        auto migrated = handleDataMigration(
-            dataPath, FS::PathCombine(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation), "../../PolyMC"), "PolyMC",
-            "polymc.cfg");
+        const QString appDataLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+
+        // First start: offer to bring over the data of an existing Prism Launcher installation.
+        // (The "sync" button in the status bar can bring over new instances later on.)
+        auto migrated = handleDataMigration(dataPath, FS::PathCombine(appDataLocation, "../../PrismLauncher"), "Prism Launcher",
+                                            "prismlauncher.cfg");
         if (!migrated) {
-            handleDataMigration(dataPath,
-                                FS::PathCombine(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation), "../../multimc"),
-                                "MultiMC", "multimc.cfg");
+            migrated = handleDataMigration(dataPath, FS::PathCombine(appDataLocation, "../../PolyMC"), "PolyMC", "polymc.cfg");
+        }
+        if (!migrated) {
+            handleDataMigration(dataPath, FS::PathCombine(appDataLocation, "../../multimc"), "MultiMC", "multimc.cfg");
         }
     }
 
@@ -652,13 +656,20 @@ Application::Application(int& argc, char** argv) : QApplication(argc, argv)
 
     // Initialize application settings
     {
-        // Provide a fallback for migration from PolyMC
-        m_settings.reset(new INISettingsObject({ BuildConfig.LAUNCHER_CONFIGFILE, "polymc.cfg", "multimc.cfg" }, this));
+        // Provide a fallback for migration from Prism Launcher, PolyMC and MultiMC
+        const bool firstSettingsFile = !QFileInfo::exists(FS::PathCombine(dataPath, BuildConfig.LAUNCHER_CONFIGFILE));
+        const bool migratedFromPrism = firstSettingsFile && QFileInfo::exists(FS::PathCombine(dataPath, "prismlauncher.cfg"));
+        m_settings.reset(new INISettingsObject({ BuildConfig.LAUNCHER_CONFIGFILE, "prismlauncher.cfg", "polymc.cfg", "multimc.cfg" }, this));
 
         // Theming
         m_settings->registerSetting("IconTheme", QString());
         m_settings->registerSetting("ApplicationTheme", QString());
         m_settings->registerSetting("BackgroundCat", QString("kitteh"));
+
+        // settings that were just carried over from Prism Launcher keep their look from there; start with the MLCM theme instead
+        if (migratedFromPrism) {
+            m_settings->set("ApplicationTheme", QStringLiteral("mlcm"));
+        }
 
         // Remembered state
         m_settings->registerSetting("LastUsedGroupForNewInstance", QString());
@@ -1468,7 +1479,7 @@ void Application::messageReceived(const QByteArray& message)
         bool isLoginAtempt = false;
         if (command == "import") {
             QString url = received.args["url"];
-            isLoginAtempt = !url.isEmpty() && normalizeImportUrl(url).scheme() == BuildConfig.LAUNCHER_APP_BINARY_NAME;
+            isLoginAtempt = !url.isEmpty() && normalizeImportUrl(url).scheme() == BuildConfig.LAUNCHER_URL_SCHEME;
         }
         if (!isLoginAtempt) {
             qDebug() << "Received message" << message << "while still initializing. It will be ignored.";
@@ -2035,6 +2046,7 @@ bool Application::handleDataMigration(const QString& currentData, const QString&
         filters.append(equals(BuildConfig.LAUNCHER_CONFIGFILE));  // it's possible that we already used that directory before
         filters.append(startsWith("logs/"));
         filters.append(equals("accounts.json"));
+        filters.append(equals("instgroups.json"));
         filters.append(startsWith("accounts/"));
         filters.append(startsWith("assets/"));
         filters.append(startsWith("icons/"));

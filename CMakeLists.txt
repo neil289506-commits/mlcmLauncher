@@ -200,7 +200,7 @@ set(Launcher_VERSION_NAME4_COMMA "${Launcher_VERSION_MAJOR},${Launcher_VERSION_M
 set(Launcher_BUILD_PLATFORM "unknown" CACHE STRING "A short string identifying the platform that this build was built for. Only used to display in the about dialog.")
 
 # Github repo URL with releases for updater
-set(Launcher_UPDATER_GITHUB_REPO "https://github.com/PrismLauncher/PrismLauncher" CACHE STRING "Base github URL for the updater.")
+set(Launcher_UPDATER_GITHUB_REPO "https://github.com/neil289506-commits/mlcmLauncher" CACHE STRING "Base github URL for the updater.")
 
 # Name to help updater identify valid artifacts
 set(Launcher_BUILD_ARTIFACT "" CACHE STRING "Artifact name to help the updater identify valid artifacts.")
@@ -381,7 +381,11 @@ include(ECMQtDeclareLoggingCategory)
 
 ####################################### Program Info #######################################
 
-set(Launcher_APP_BINARY_NAME "prismlauncher" CACHE STRING "Name of the Launcher binary")
+set(Launcher_APP_BINARY_NAME "mlcmlauncher" CACHE STRING "Name of the Launcher binary")
+# URL scheme used for the Microsoft login callback ("<scheme>://oauth/microsoft") and for import links.
+# It has to match the redirect URI registered for Launcher_MSA_CLIENT_ID. The default client id belongs to
+# Prism Launcher and only accepts "prismlauncher", so keep this value unless you register your own client id.
+set(Launcher_URL_SCHEME "prismlauncher" CACHE STRING "URL scheme used for the Microsoft login callback")
 add_subdirectory(program_info)
 
 ####################################### Install layout #######################################
