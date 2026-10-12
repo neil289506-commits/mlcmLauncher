@@ -131,4 +131,4 @@ cmake --build --preset windows_msvc --config Release
 
 完整的介面截圖（主視窗、實例編輯、設定、各種對話框）打包成一個壓縮檔：
 
-**[⬇ 下載 mlcmLauncher_screenshots.zip](https://github.com/neil289506-commits/mlcmLauncher/raw/develop/docs/mlcmLauncher_screenshots.zip)**
+**[⬇ 下載 mlcmLauncher_screenshots.zip](https://github.com/neil289506-commits/mlcmLauncher/raw/main/docs/mlcmLauncher_screenshots.zip)**
