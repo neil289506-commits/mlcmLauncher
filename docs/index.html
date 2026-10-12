@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="zh-Hant" data-lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>mlcmLauncher — 全新外觀的 Minecraft 啟動器</title>
+  <meta name="description" content="mlcmLauncher 是以 Prism Launcher 為核心、介面完全重做的 Windows Minecraft 啟動器。免費、開源。">
+  <meta name="theme-color" content="#17181b">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="mlcmLauncher">
+  <meta property="og:description" content="Prism Launcher 的核心，全新的外觀。 / Prism Launcher's engine with a fresh look.">
+  <meta property="og:image" content="https://neil289506-commits.github.io/mlcmLauncher/screenshots/main_window.png">
+  <meta property="og:url" content="https://neil289506-commits.github.io/mlcmLauncher/">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/site.js"></script>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="assets/logo.svg" alt="" width="30" height="30">mlcmLauncher</a>
+    <nav class="nav-links" aria-label="Main">
+      <a class="hide-sm" href="#features"><span class="zh">特色</span><span class="en">Features</span></a>
+      <a class="hide-sm" href="#screenshots"><span class="zh">截圖</span><span class="en">Screenshots</span></a>
+      <a class="hide-sm" href="#sync"><span class="zh">同步</span><span class="en">Sync</span></a>
+      <a class="hide-xs" href="#download"><span class="zh">下載</span><span class="en">Download</span></a>
+      <a class="hide-sm" href="#faq">FAQ</a>
+      <a class="hide-sm" href="https://github.com/neil289506-commits/mlcmLauncher">GitHub</a>
+      <button class="tool" id="lang-toggle" type="button" aria-label="Language / 語言">中 / EN</button>
+      <button class="tool" id="theme-toggle" type="button" aria-label="Theme / 主題">◐</button>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ================= hero ================= -->
+<section class="hero">
+  <div class="wrap">
+    <img class="logo" src="assets/logo.svg" alt="mlcmLauncher" width="112" height="112">
+    <h1>mlcm<span class="accent">Launcher</span></h1>
+    <p class="lead zh">Prism Launcher 的核心，全新的外觀。啟動、實例與模組管理一如往常，介面換成 Minecraft Launcher 風格的深色設計，再加上 CurseForge 與 Modrinth 的點綴。</p>
+    <p class="lead en">Prism Launcher's engine with a fresh look. Launching, instances and mod management work like they always did — the interface is now a dark, Minecraft Launcher style design with CurseForge and Modrinth accents.</p>
+    <div class="cta">
+      <a class="btn btn-play" href="#download">▶ <span class="zh">下載 Windows 版</span><span class="en">Download for Windows</span></a>
+      <a class="btn btn-ghost" href="https://github.com/neil289506-commits/mlcmLauncher"><span class="zh">查看原始碼</span><span class="en">View source</span></a>
+    </div>
+    <p class="meta"><span class="zh">Windows 10 / 11 · 免費 · 開源（GPL-3.0）</span><span class="en">Windows 10 / 11 · Free · Open source (GPL-3.0)</span></p>
+    <div class="shot-hero frame">
+      <img src="screenshots/main_window.png" width="1100" height="700" alt="mlcmLauncher main window">
+    </div>
+  </div>
+</section>
+
+<!-- ================= features ================= -->
+<section id="features">
+  <div class="wrap">
+    <p class="eyebrow"><span class="zh">特色</span><span class="en">Features</span></p>
+    <h2><span class="zh">換外觀，不換引擎</span><span class="en">A new look, the same engine</span></h2>
+    <p class="lead zh">目標是改善外觀、保留 Prism Launcher 原本的版面與操作習慣。你熟悉的功能都還在原來的位置。</p>
+    <p class="lead en">The goal is a better look while keeping Prism Launcher's layout and habits. The features you know are still where you expect them.</p>
+
+    <div class="mix" role="img" aria-label="Minecraft Launcher 60%, CurseForge 20%, Modrinth 20%">
+      <span class="m">Minecraft Launcher 60%</span><span class="c"><i>CurseForge&nbsp;</i>20%</span><span class="r"><i>Modrinth&nbsp;</i>20%</span>
+    </div>
+    <div class="mix-notes">
+      <div class="zh">深炭灰底、立體草綠「啟動」鈕、經驗條進度</div><div class="zh">橘色行動鈕與分頁指示</div><div class="zh">圓角卡片、亮綠聚焦框</div>
+      <div class="en">Charcoal surfaces, bevelled green PLAY button, XP-bar progress</div><div class="en">Orange call-to-action and tab accents</div><div class="en">Rounded cards, bright green focus</div>
+    </div>
+
+    <div class="grid f">
+      <div class="card">
+        <h3><span class="ico m">⚙</span><span class="zh">Prism Launcher 核心</span><span class="en">Prism Launcher core</span></h3>
+        <p class="zh">啟動、實例管理、模組載入、帳號登入都沿用 Prism Launcher，不做改動。</p>
+        <p class="en">Launching, instance management, mod loading and sign-in are Prism Launcher's, unchanged.</p>
+      </div>
+      <div class="card">
+        <h3><span class="ico m">▶</span><span class="zh">Minecraft 風格介面</span><span class="en">Minecraft-style interface</span></h3>
+        <p class="zh">深色底、圓角實例卡片、立體綠色「啟動」按鈕，一眼就知道要按哪裡。</p>
+        <p class="en">Dark surfaces, rounded instance cards and a bevelled green Launch button.</p>
+      </div>
+      <div class="card">
+        <h3><span class="ico c">⬇</span><span class="zh">Modrinth 與 CurseForge</span><span class="en">Modrinth &amp; CurseForge</span></h3>
+        <p class="zh">模組瀏覽的搜尋結果改成圓角卡片，兩個平台的外觀一致。</p>
+        <p class="en">Mod search results are rounded cards, consistent across both platforms.</p>
+      </div>
+      <div class="card">
+        <h3><span class="ico r">⟳</span><span class="zh">與 Prism 同步</span><span class="en">Sync with Prism</span></h3>
+        <p class="zh">第一次啟動可帶入 Prism Launcher 的資料；之後用底部按鈕把新實例帶過來。</p>
+        <p class="en">Bring your Prism Launcher data over on first start; later, the button at the bottom pulls in new instances.</p>
+      </div>
+      <div class="card">
+        <h3><span class="ico r">▣</span><span class="zh">獨立資料夾</span><span class="en">Its own data folder</span></h3>
+        <p class="zh">資料放在 <code>%APPDATA%\mlcmLauncher</code>，不與 Prism Launcher 共用，兩者可以並存。</p>
+        <p class="en">Data lives in <code>%APPDATA%\mlcmLauncher</code>, separate from Prism Launcher, so both can coexist.</p>
+      </div>
+      <div class="card">
+        <h3><span class="ico c">♥</span><span class="zh">免費且開源</span><span class="en">Free and open source</span></h3>
+        <p class="zh">以 GPL-3.0 授權，建立在 Prism Launcher、PolyMC 與 MultiMC 的貢獻之上。</p>
+        <p class="en">GPL-3.0 licensed, built on the work of Prism Launcher, PolyMC and MultiMC contributors.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= screenshots ================= -->
+<section id="screenshots" style="background: var(--bg-2)">
+  <div class="wrap">
+    <p class="eyebrow"><span class="zh">截圖</span><span class="en">Screenshots</span></p>
+    <h2><span class="zh">看看實際的樣子</span><span class="en">See it in action</span></h2>
+    <div class="gallery">
+      <figure class="wide">
+        <a href="screenshots/main_window.png"><div class="frame"><img loading="lazy" src="screenshots/main_window.png" width="1100" height="700" alt="Main window"></div></a>
+        <figcaption><span class="zh">主視窗：實例卡片、分組、右側的大型「啟動」按鈕。</span><span class="en">Main window: instance cards, groups and the big Launch button on the right.</span></figcaption>
+      </figure>
+      <figure>
+        <a href="screenshots/mod_browser_modrinth.png"><div class="frame"><img loading="lazy" src="screenshots/mod_browser_modrinth.png" width="1000" height="680" alt="Modrinth mod browser"></div></a>
+        <figcaption><span class="zh">Modrinth 模組瀏覽</span><span class="en">Modrinth mod browser</span></figcaption>
+      </figure>
+      <figure>
+        <a href="screenshots/mod_browser_curseforge.png"><div class="frame"><img loading="lazy" src="screenshots/mod_browser_curseforge.png" width="1000" height="680" alt="CurseForge mod browser"></div></a>
+        <figcaption><span class="zh">CurseForge 模組瀏覽</span><span class="en">CurseForge mod browser</span></figcaption>
+      </figure>
+      <figure>
+        <a href="screenshots/new_instance.png"><div class="frame"><img loading="lazy" src="screenshots/new_instance.png" width="1000" height="790" alt="New instance dialog"></div></a>
+        <figcaption><span class="zh">新增實例</span><span class="en">New instance</span></figcaption>
+      </figure>
+      <figure>
+        <a href="screenshots/instance_mods.png"><div class="frame"><img loading="lazy" src="screenshots/instance_mods.png" width="1080" height="640" alt="Instance mods page"></div></a>
+        <figcaption><span class="zh">實例的模組頁</span><span class="en">Instance mods page</span></figcaption>
+      </figure>
+      <figure class="wide">
+        <a href="screenshots/appearance.png"><div class="frame"><img loading="lazy" src="screenshots/appearance.png" width="980" height="760" alt="Appearance settings"></div></a>
+        <figcaption><span class="zh">外觀設定：主題選「MLCM」，圖示主題仍可自選（iOS、flat、legacy 等）。</span><span class="en">Appearance settings: pick the “MLCM” theme; icon themes (iOS, flat, legacy…) are still selectable.</span></figcaption>
+      </figure>
+    </div>
+    <p style="margin-top:24px"><a class="btn btn-ghost" href="mlcmLauncher_screenshots.zip">⬇ <span class="zh">下載完整截圖（zip）</span><span class="en">Download all screenshots (zip)</span></a></p>
+  </div>
+</section>
+
+<!-- ================= sync ================= -->
+<section id="sync">
+  <div class="wrap">
+    <p class="eyebrow"><span class="zh">同步</span><span class="en">Sync</span></p>
+    <h2><span class="zh">從 Prism Launcher 帶資料過來</span><span class="en">Bring your data over from Prism Launcher</span></h2>
+    <p class="lead zh">mlcmLauncher 有自己的資料夾，所以搬家是你主動決定的，而且不會動到 Prism Launcher 的任何檔案。</p>
+    <p class="lead en">mlcmLauncher has its own data folder, so moving over is your choice — and Prism Launcher's files are never modified.</p>
+    <ol class="steps">
+      <li>
+        <h3><span class="zh">第一次啟動</span><span class="en">First start</span></h3>
+        <p class="zh">偵測到 Prism Launcher 的資料夾時，會詢問是否搬過來：實例、帳號、設定、圖示等。選「否」就不會再問。</p>
+        <p class="en">If a Prism Launcher folder is found you are asked whether to bring it over: instances, accounts, settings, icons. Choose “No” and you won't be asked again.</p>
+      </li>
+      <li>
+        <h3><span class="zh">底部的同步按鈕</span><span class="en">The sync button</span></h3>
+        <p class="zh">視窗底部有「Sync with Prism Launcher」。Prism 之後新增了實例，按一下就能帶過來。</p>
+        <p class="en">“Sync with Prism Launcher” sits at the bottom of the window. Added an instance in Prism later? One click brings it over.</p>
+      </li>
+      <li>
+        <h3><span class="zh">安全的方式</span><span class="en">Safe by design</span></h3>
+        <p class="zh">單向（Prism → mlcmLauncher）、只新增：已存在的實例不會被覆蓋，也不會刪除任何東西。</p>
+        <p class="en">One way (Prism → mlcmLauncher) and additive only: existing instances are never overwritten and nothing is deleted.</p>
+      </li>
+    </ol>
+    <p class="note zh"><b>注意：</b>帳號與設定只在第一次啟動時搬移，底部按鈕只處理實例、分組與自訂圖示。</p>
+    <p class="note en"><b>Note:</b> accounts and settings are only carried over on first start; the button handles instances, groups and custom icons.</p>
+  </div>
+</section>
+
+<!-- ================= download ================= -->
+<section id="download" style="background: var(--bg-2)">
+  <div class="wrap">
+    <p class="eyebrow"><span class="zh">下載</span><span class="en">Download</span></p>
+    <h2><span class="zh">取得 mlcmLauncher</span><span class="en">Get mlcmLauncher</span></h2>
+    <div class="dl">
+      <div class="card big">
+        <h3><span class="zh">Windows（x64）</span><span class="en">Windows (x64)</span></h3>
+        <p class="zh" style="margin:0;color:var(--muted)">從 GitHub Releases 下載最新的安裝程式或免安裝版。</p>
+        <p class="en" style="margin:0;color:var(--muted)">Grab the latest installer or portable build from GitHub Releases.</p>
+        <div><a class="btn btn-cf" href="https://github.com/neil289506-commits/mlcmLauncher/releases/latest">⬇ <span class="zh">前往下載頁</span><span class="en">Go to downloads</span></a></div>
+        <ul class="reqs">
+          <li class="zh">Windows 10 / 11（64 位元）</li><li class="en">Windows 10 / 11 (64-bit)</li>
+          <li class="zh">需要擁有 Minecraft: Java Edition 的 Microsoft 帳號才能登入遊玩</li><li class="en">A Microsoft account that owns Minecraft: Java Edition is needed to play</li>
+        </ul>
+      </div>
+      <div class="card alt">
+        <h3><span class="zh">其他取得方式</span><span class="en">Other ways</span></h3>
+        <a href="https://github.com/neil289506-commits/mlcmLauncher/actions/workflows/build.yml"><span class="zh">最新建置（GitHub Actions → Artifacts）</span><span class="en">Latest build (GitHub Actions → Artifacts)</span></a>
+        <a href="https://github.com/neil289506-commits/mlcmLauncher#自行建置"><span class="zh">從原始碼建置</span><span class="en">Build from source</span></a>
+        <a href="https://github.com/neil289506-commits/mlcmLauncher"><span class="zh">GitHub 倉庫</span><span class="en">GitHub repository</span></a>
+      </div>
+    </div>
+    <p class="note zh">目前還沒有正式版本時，Releases 頁面可能是空的，請改用「最新建置」。</p>
+    <p class="note en">While there is no official release yet the Releases page may be empty — use the latest build instead.</p>
+  </div>
+</section>
+
+<!-- ================= faq ================= -->
+<section id="faq">
+  <div class="wrap" style="max-width: 820px">
+    <p class="eyebrow">FAQ</p>
+    <h2><span class="zh">常見問題</span><span class="en">Frequently asked questions</span></h2>
+    <details>
+      <summary><span class="zh">跟 Prism Launcher 有什麼不同？</span><span class="en">How is it different from Prism Launcher?</span></summary>
+      <div>
+        <p class="zh">核心功能相同，差別在外觀：新的 MLCM 主題、圓角實例卡片、大型啟動按鈕，以及從 Prism Launcher 同步實例的功能。目前只做 Windows。</p>
+        <p class="en">The core features are the same. The differences are the look — the MLCM theme, rounded instance cards, a big Launch button — plus syncing instances from Prism Launcher. Windows only for now.</p>
+      </div>
+    </details>
+    <details>
+      <summary><span class="zh">會跟 Prism Launcher 共用資料嗎？</span><span class="en">Does it share data with Prism Launcher?</span></summary>
+      <div>
+        <p class="zh">不會。資料放在 <code>%APPDATA%\mlcmLauncher</code>，與 Prism Launcher 的 <code>%APPDATA%\PrismLauncher</code> 分開，可以同時安裝。</p>
+        <p class="en">No. Data lives in <code>%APPDATA%\mlcmLauncher</code>, separate from Prism Launcher's <code>%APPDATA%\PrismLauncher</code>, so you can install both.</p>
+      </div>
+    </details>
+    <details>
+      <summary><span class="zh">還能用 Prism 的圖示主題嗎？</span><span class="en">Can I still use Prism's icon themes?</span></summary>
+      <div>
+        <p class="zh">可以。圖示主題（包含 iOS、flat、legacy 風格）與視窗主題是分開的設定，仍然可以自由選擇。MLCM 的配色會套在上面。</p>
+        <p class="en">Yes. Icon themes (including the iOS, flat and legacy styles) are a separate setting and remain selectable. The MLCM colours are applied on top.</p>
+      </div>
+    </details>
+    <details>
+      <summary><span class="zh">翻譯與語言呢？</span><span class="en">What about translations?</span></summary>
+      <div>
+        <p class="zh">沿用 Prism Launcher 的翻譯機制，語言選單照常運作。只有 mlcmLauncher 新增的幾個字串（例如同步按鈕）目前是英文。</p>
+        <p class="en">It uses Prism Launcher's translation system and the language menu works as usual. Only the few strings added by mlcmLauncher (such as the sync button) are English for now.</p>
+      </div>
+    </details>
+    <details>
+      <summary><span class="zh">支援 Linux 或 macOS 嗎？</span><span class="en">Linux or macOS?</span></summary>
+      <div>
+        <p class="zh">目前不支援，專案先專注在 Windows。需要這些平台請使用 Prism Launcher。</p>
+        <p class="en">Not at the moment — the project focuses on Windows first. For those platforms please use Prism Launcher.</p>
+      </div>
+    </details>
+    <details>
+      <summary><span class="zh">這是官方產品嗎？</span><span class="en">Is this an official product?</span></summary>
+      <div>
+        <p class="zh">不是。mlcmLauncher 是獨立的社群專案，不是 Prism Launcher、Mojang、Microsoft、CurseForge 或 Modrinth 的官方產品，也沒有得到他們的背書。</p>
+        <p class="en">No. mlcmLauncher is an independent community project, not an official product of — nor endorsed by — Prism Launcher, Mojang, Microsoft, CurseForge or Modrinth.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h4>mlcmLauncher</h4>
+        <p class="zh" style="margin:0">以 Prism Launcher 為核心、介面重新設計的 Minecraft 啟動器。</p>
+        <p class="en" style="margin:0">A Minecraft launcher built on Prism Launcher with a redesigned interface.</p>
+      </div>
+      <div>
+        <h4><span class="zh">連結</span><span class="en">Links</span></h4>
+        <a href="https://github.com/neil289506-commits/mlcmLauncher">GitHub</a>
+        <a href="https://github.com/neil289506-commits/mlcmLauncher/issues"><span class="zh">回報問題</span><span class="en">Report an issue</span></a>
+        <a href="https://github.com/neil289506-commits/mlcmLauncher/releases"><span class="zh">版本</span><span class="en">Releases</span></a>
+      </div>
+      <div>
+        <h4><span class="zh">致謝</span><span class="en">Credits</span></h4>
+        <a href="https://github.com/PrismLauncher/PrismLauncher">Prism Launcher</a>
+        <a href="https://github.com/PolyMC/PolyMC">PolyMC</a>
+        <a href="https://github.com/MultiMC/Launcher">MultiMC</a>
+      </div>
+    </div>
+    <p class="legal zh">以 GPL-3.0 授權。核心程式碼來自 Prism Launcher 及其前身 PolyMC 與 MultiMC 的貢獻者。本專案不是 Prism Launcher、Mojang、Microsoft、CurseForge 或 Modrinth 的官方產品，也未獲得他們的背書。「Minecraft」是 Mojang Studios 的商標；CurseForge 與 Modrinth 的名稱僅用來說明設計靈感的來源。© <span class="year">2026</span> mlcmLauncher contributors。</p>
+    <p class="legal en">Licensed under GPL-3.0. Core code comes from Prism Launcher and the contributors of its predecessors PolyMC and MultiMC. This project is not an official product of, nor endorsed by, Prism Launcher, Mojang, Microsoft, CurseForge or Modrinth. “Minecraft” is a trademark of Mojang Studios; the CurseForge and Modrinth names are used only to describe design inspiration. © <span class="year">2026</span> mlcmLauncher contributors.</p>
+  </div>
+</footer>
+
+</body>
+</html>

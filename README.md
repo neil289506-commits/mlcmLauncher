@@ -9,6 +9,12 @@
   <sub>A Windows-first Minecraft launcher: Prism Launcher's engine with a redesigned interface.</sub>
 </p>
 
+<p align="center">
+  <a href="https://neil289506-commits.github.io/mlcmLauncher/"><b>網站</b></a> ·
+  <a href="https://github.com/neil289506-commits/mlcmLauncher/releases">版本</a> ·
+  <a href="#下載截圖">截圖</a>
+</p>
+
 ---
 
 ## 這是什麼
@@ -125,4 +131,4 @@ cmake --build --preset windows_msvc --config Release
 
 完整的介面截圖（主視窗、實例編輯、設定、各種對話框）打包成一個壓縮檔：
 
-**[⬇ 下載 mlcmLauncher_screenshots.zip](https://github.com/neil289506-commits/mlcmLauncher/raw/develop/docs/mlcmLauncher_screenshots.zip)**
+**[⬇ 下載 mlcmLauncher_screenshots.zip](https://github.com/neil289506-commits/mlcmLauncher/raw/main/docs/mlcmLauncher_screenshots.zip)**
