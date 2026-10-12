@@ -9,6 +9,12 @@
   <sub>A Windows-first Minecraft launcher: Prism Launcher's engine with a redesigned interface.</sub>
 </p>
 
+<p align="center">
+  <a href="https://neil289506-commits.github.io/mlcmLauncher/"><b>網站</b></a> ·
+  <a href="https://github.com/neil289506-commits/mlcmLauncher/releases">版本</a> ·
+  <a href="#下載截圖">截圖</a>
+</p>
+
 ---
 
 ## 這是什麼

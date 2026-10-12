@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a2b30"/>
+      <stop offset="1" stop-color="#18191b"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0.1" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#8be66a"/>
+      <stop offset="0.55" stop-color="#3c8527"/>
+      <stop offset="1" stop-color="#1d4a10"/>
+    </linearGradient>
+    <linearGradient id="beamIn" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- tile -->
+  <rect x="6" y="6" width="244" height="244" rx="54" fill="url(#bg)"/>
+  <rect x="9" y="9" width="238" height="238" rx="51" fill="none" stroke="#3a3b41" stroke-width="3"/>
+
+  <!-- refracted beams: CurseForge orange, Minecraft green, Modrinth green -->
+  <polygon points="163,124 163,136 246,92 246,114" fill="#f16436"/>
+  <polygon points="163,127 163,139 246,134 246,156" fill="#52a535"/>
+  <polygon points="163,130 163,142 246,176 246,198" fill="#1bd96a"/>
+
+  <!-- prism -->
+  <polygon points="120,46 48,184 192,184" fill="url(#glass)" stroke="#d9ffd0" stroke-opacity="0.85" stroke-width="5" stroke-linejoin="round"/>
+  <polygon points="120,46 84,115 120,128" fill="#ffffff" fill-opacity="0.22"/>
+  <polygon points="120,128 84,115 48,184 120,184" fill="#000000" fill-opacity="0.12"/>
+
+  <!-- incoming white beam and the beam crossing the glass -->
+  <polygon points="12,150 80,124 80,138 12,164" fill="url(#beamIn)"/>
+  <polygon points="80,124 163,127 163,139 80,138" fill="#ffffff" fill-opacity="0.9"/>
+</svg>
