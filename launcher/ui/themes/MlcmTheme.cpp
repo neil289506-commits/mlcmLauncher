@@ -151,19 +151,21 @@ QStatusBar QToolButton:hover {
 }
 
 /* Instance header (icon + name) in the right-hand panel */
-QToolBar#instanceToolBar QToolButton#changeIconButton,
-QToolBar#instanceToolBar QToolButton#renameButton {
+QToolBar#instanceToolBar QToolButton#changeIconButton {
     background-color: #2c2d32;
     border: 1px solid #3a3b41;
     border-radius: 8px;
     padding: 8px;
 }
-QToolBar#instanceToolBar QToolButton#changeIconButton:hover,
-QToolBar#instanceToolBar QToolButton#renameButton:hover {
+QToolBar#instanceToolBar QToolButton#changeIconButton:hover {
     background-color: #35363c;
     border-color: #1bd96a;
 }
-QToolBar#instanceToolBar QToolButton#renameButton {
+QToolBar#instanceToolBar QLabel#nameLabel {
+    background-color: #2c2d32;
+    border: 1px solid #3a3b41;
+    border-radius: 8px;
+    padding: 6px 10px;
     font-weight: bold;
 }
 

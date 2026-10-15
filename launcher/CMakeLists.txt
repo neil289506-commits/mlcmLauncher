@@ -489,6 +489,8 @@ set(API_SOURCES
 
     modplatform/flame/FlameAPI.h
     modplatform/flame/FlameAPI.cpp
+    modplatform/flame/FlamePackIndex.h
+    modplatform/flame/FlamePackIndex.cpp
     modplatform/modrinth/ModrinthAPI.h
     modplatform/modrinth/ModrinthAPI.cpp
     modplatform/helpers/HashUtils.h
@@ -1115,8 +1117,6 @@ SET(LAUNCHER_SOURCES
     ui/widgets/IconLabel.h
     ui/widgets/JavaWizardWidget.cpp
     ui/widgets/JavaWizardWidget.h
-    ui/widgets/LabeledToolButton.cpp
-    ui/widgets/LabeledToolButton.h
     ui/widgets/LanguageSelectionWidget.cpp
     ui/widgets/LanguageSelectionWidget.h
     ui/widgets/LogView.cpp
@@ -1125,8 +1125,6 @@ SET(LAUNCHER_SOURCES
     ui/widgets/InfoFrame.h
     ui/widgets/ModFilterWidget.cpp
     ui/widgets/ModFilterWidget.h
-    ui/widgets/ModListView.cpp
-    ui/widgets/ModListView.h
     ui/widgets/PageContainer.cpp
     ui/widgets/PageContainer.h
     ui/widgets/PageContainer_p.h
@@ -1209,8 +1207,6 @@ qt_add_resources(LAUNCHER_RESOURCES
     resources/pe_blue/pe_blue.qrc
     resources/breeze_dark/breeze_dark.qrc
     resources/breeze_light/breeze_light.qrc
-    resources/OSX/OSX.qrc
-    resources/iOS/iOS.qrc
     resources/flat/flat.qrc
     resources/flat_white/flat_white.qrc
     resources/documents/documents.qrc
