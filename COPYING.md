@@ -1,3 +1,8 @@
+## mlcmLauncher
+
+     mlcmLauncher - a fork of Prism Launcher
+     Copyright (C) 2026 mlcmLauncher contributors
+
 ## Prism Launcher
 
      Prism Launcher - Minecraft Launcher

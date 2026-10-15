@@ -12,6 +12,7 @@
 <p align="center">
   <a href="https://neil289506-commits.github.io/mlcmLauncher/"><b>網站</b></a> ·
   <a href="https://github.com/neil289506-commits/mlcmLauncher/releases">版本</a> ·
+  <a href="https://github.com/neil289506-commits/mlcmLauncher/issues">回報問題</a> ·
   <a href="#下載截圖">截圖</a>
 </p>
 
