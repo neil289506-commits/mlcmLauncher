@@ -269,7 +269,8 @@ endif()
 
 # By using this key in your builds you accept the terms of use laid down in
 # https://docs.microsoft.com/en-us/legal/microsoft-identity-platform/terms-of-use
-set(Launcher_MSA_CLIENT_ID "c36a9fb6-4f2a-41ff-90bd-ae7cc92031eb" CACHE STRING "Client ID you can get from Microsoft Identity Platform when you register an application")
+# mlcmLauncher's own Azure app registration (public client, personal accounts only; on Mojang's allow list)
+set(Launcher_MSA_CLIENT_ID "be6453b0-8f9e-43b3-9939-c3792d0fd1cf" CACHE STRING "Client ID you can get from Microsoft Identity Platform when you register an application")
 
 # By using this key in your builds you accept the terms and conditions laid down in
 # https://support.curseforge.com/en/support/solutions/articles/9000207405-curse-forge-3rd-party-api-terms-and-conditions
@@ -383,9 +384,9 @@ include(ECMQtDeclareLoggingCategory)
 
 set(Launcher_APP_BINARY_NAME "mlcmlauncher" CACHE STRING "Name of the Launcher binary")
 # URL scheme used for the Microsoft login callback ("<scheme>://oauth/microsoft") and for import links.
-# It has to match the redirect URI registered for Launcher_MSA_CLIENT_ID. The default client id belongs to
-# Prism Launcher and only accepts "prismlauncher", so keep this value unless you register your own client id.
-set(Launcher_URL_SCHEME "prismlauncher" CACHE STRING "URL scheme used for the Microsoft login callback")
+# It has to match the redirect URI registered for Launcher_MSA_CLIENT_ID in the Azure portal
+# (mlcmLauncher's registration uses "mlcmlauncher://oauth/microsoft").
+set(Launcher_URL_SCHEME "mlcmlauncher" CACHE STRING "URL scheme used for the Microsoft login callback")
 add_subdirectory(program_info)
 
 ####################################### Install layout #######################################
