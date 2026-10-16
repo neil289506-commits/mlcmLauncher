@@ -117,7 +117,7 @@ cmake --build --preset windows_msvc --config Release
 
 ## 注意事項
 
-- **微軟帳號登入**沿用 Prism Launcher 預設的 Client ID，它只接受 `prismlauncher://` 這個回呼網址，所以 `Launcher_URL_SCHEME` 預設是 `prismlauncher`（只影響登入回呼與匯入連結，資料夾與執行檔名稱都已改成 mlcmLauncher）。如果你註冊了自己的 Azure 應用程式，可以在 CMake 設定 `Launcher_MSA_CLIENT_ID` 與 `Launcher_URL_SCHEME`。
+- **微軟帳號登入**使用 mlcmLauncher 自己的 Azure 應用程式（Client ID 在 CMake 的 `Launcher_MSA_CLIENT_ID`），登入回呼網址是 `mlcmlauncher://oauth/microsoft`（`Launcher_URL_SCHEME`）。fork 這個專案的人請在 Azure 註冊自己的應用程式，並通過 Mojang 的審核（https://aka.ms/mce-reviewappid），再改這兩個設定；也可以在「設定 → API」臨時填入自己的 Client ID。
 - 內建更新器指向本倉庫的 Releases，不會再去下載 Prism Launcher 的版本。
 
 ## 授權與致謝
