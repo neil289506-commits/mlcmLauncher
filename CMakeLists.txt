@@ -270,6 +270,7 @@ endif()
 # By using this key in your builds you accept the terms of use laid down in
 # https://docs.microsoft.com/en-us/legal/microsoft-identity-platform/terms-of-use
 # mlcmLauncher's own Azure app registration (public client, personal accounts only; on Mojang's allow list)
+# mlcmLauncher's own Azure app registration (public client, personal accounts only; approved by Mojang for the Minecraft API)
 set(Launcher_MSA_CLIENT_ID "be6453b0-8f9e-43b3-9939-c3792d0fd1cf" CACHE STRING "Client ID you can get from Microsoft Identity Platform when you register an application")
 
 # By using this key in your builds you accept the terms and conditions laid down in
