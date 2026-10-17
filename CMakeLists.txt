@@ -293,6 +293,34 @@ message(STATUS "Git commit: ${Launcher_GIT_COMMIT}")
 message(STATUS "Git tag: ${Launcher_GIT_TAG}")
 message(STATUS "Git refspec: ${Launcher_GIT_REFSPEC}")
 
+#### The version of a build follows its release tag
+# Resolution order: -DLauncher_VERSION_OVERRIDE=<tag or version>, then the exact git tag of the checkout
+# (v11.1.2, V11.1.2 or 11.1.2), then the default numbers above (development builds).
+set(Launcher_VERSION_OVERRIDE "" CACHE STRING "Release version of this build, e.g. v11.1.2. Empty: use the exact git tag, if the checkout has one.")
+set(_launcher_version_source "${Launcher_VERSION_OVERRIDE}")
+if(_launcher_version_source STREQUAL "")
+    set(_launcher_version_source "${Launcher_GIT_TAG}")
+endif()
+if(_launcher_version_source MATCHES "^[vV]?([0-9]+)\\.([0-9]+)(\\.([0-9]+))?")
+    set(Launcher_VERSION_MAJOR "${CMAKE_MATCH_1}")
+    set(Launcher_VERSION_MINOR "${CMAKE_MATCH_2}")
+    if("${CMAKE_MATCH_4}" STREQUAL "")  # no third number, e.g. a tag like v11.1
+        set(Launcher_VERSION_PATCH 0)
+    else()
+        set(Launcher_VERSION_PATCH "${CMAKE_MATCH_4}")
+    endif()
+    set(Launcher_VERSION_NAME "${Launcher_VERSION_MAJOR}.${Launcher_VERSION_MINOR}.${Launcher_VERSION_PATCH}")
+    set(Launcher_VERSION_NAME4 "${Launcher_VERSION_NAME}.0")
+    set(Launcher_VERSION_NAME4_COMMA "${Launcher_VERSION_MAJOR},${Launcher_VERSION_MINOR},${Launcher_VERSION_PATCH},0")
+    if(NOT Launcher_VERSION_OVERRIDE STREQUAL "")
+        # built from a branch for a release: report the release as the git tag too
+        set(Launcher_GIT_TAG "${Launcher_VERSION_NAME}")
+    endif()
+    message(STATUS "Version: ${Launcher_VERSION_NAME} (from '${_launcher_version_source}')")
+elseif(NOT Launcher_VERSION_OVERRIDE STREQUAL "")
+    message(WARNING "Launcher_VERSION_OVERRIDE='${Launcher_VERSION_OVERRIDE}' is not a version like v1.2.3, keeping ${Launcher_VERSION_NAME}")
+endif()
+
 string(TIMESTAMP TODAY "%Y-%m-%d")
 set(Launcher_BUILD_TIMESTAMP "${TODAY}")
 

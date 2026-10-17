@@ -322,7 +322,7 @@ PrismUpdaterApp::PrismUpdaterApp(int& argc, char** argv) : QApplication(argc, ar
     m_printOnly = parser.isSet("list");
     auto userVersion = parser.value("install-version");
     if (!userVersion.isEmpty()) {
-        m_userSelectedVersion = Version(userVersion);
+        m_userSelectedVersion = Version::fromReleaseTag(userVersion);
     }
     m_selectUI = parser.isSet("select-ui");
     m_allowDowngrade = parser.isSet("allow-downgrade");
@@ -442,7 +442,7 @@ void PrismUpdaterApp::run()
         if (needUpdateVal) {
             QTextStream stdOutStream(stdout);
             stdOutStream << "Name: " << latest.name << "\n";
-            stdOutStream << "Version: " << latest.tag_name << "\n";
+            stdOutStream << "Version: " << latest.version.toString() << "\n";
             stdOutStream << "TimeStamp: " << latest.created_at.toString(Qt::ISODate) << "\n";
             stdOutStream << latest.body << "\n";
             stdOutStream.flush();
@@ -618,7 +618,7 @@ void PrismUpdaterApp::moveAndFinishUpdate(const QDir& target)
 void PrismUpdaterApp::printReleases()
 {
     for (const auto& release : m_releases) {
-        std::cout << release.name.toStdString() << " Version: " << release.tag_name.toStdString() << '\n';
+        std::cout << release.name.toStdString() << " Version: " << release.version.toString().toStdString() << '\n';
     }
 }
 
@@ -1260,7 +1260,7 @@ Result<int> PrismUpdaterApp::parseReleasePage(const QByteArray* response)
         TRY_INTO(release.draft, Json::requireBoolean(obj, "draft"))
         TRY_INTO(release.prerelease, Json::requireBoolean(obj, "prerelease"))
         release.body = obj["body"].toString();
-        release.version = Version(release.tag_name);
+        release.version = Version::fromReleaseTag(release.tag_name);
 
         TRY_INTO(const auto& releaseAssetsObj, Json::requireArray(obj, "assets"))
         for (auto assetJson : releaseAssetsObj) {

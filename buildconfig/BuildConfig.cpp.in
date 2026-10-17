@@ -137,8 +137,14 @@ QString Config::printableVersionString() const
 {
     QString vstr = versionString();
 
+    // "v11.1.2" / "V11.1.2" are the tag of version 11.1.2
+    QString tag = GIT_TAG;
+    if (tag.size() > 1 && (tag.at(0) == 'v' || tag.at(0) == 'V') && tag.at(1).isDigit()) {
+        tag.remove(0, 1);
+    }
+
     // If the build is not a main release, append the channel
-    if (VERSION_CHANNEL != "stable" && GIT_TAG != vstr) {
+    if (VERSION_CHANNEL != "stable" && tag != vstr) {
         vstr += "-" + VERSION_CHANNEL;
     }
     return vstr;

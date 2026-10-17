@@ -198,13 +198,13 @@ void PrismExternalUpdater::checkForUpdates(bool triggeredByUser) const
                 auto [firstLine, remainder1] = StringUtils::splitFirst(stdOutput, '\n');
                 auto [secondLine, remainder2] = StringUtils::splitFirst(remainder1, '\n');
                 auto [thirdLine, releaseNotes] = StringUtils::splitFirst(remainder2, '\n');
-                auto versionName = StringUtils::splitFirst(firstLine, ": ").second.trimmed();
+                auto releaseName = StringUtils::splitFirst(firstLine, ": ").second.trimmed();
                 auto versionTag = StringUtils::splitFirst(secondLine, ": ").second.trimmed();
                 auto releaseTimestamp = QDateTime::fromString(StringUtils::splitFirst(thirdLine, ": ").second.trimmed(), Qt::ISODate);
-                qDebug() << "Update available:" << versionName << versionTag << releaseTimestamp;
+                qDebug() << "Update available:" << releaseName << versionTag << releaseTimestamp;
                 qDebug() << "Update release notes:" << releaseNotes;
 
-                offerUpdate(versionName, versionTag, releaseNotes, triggeredByUser);
+                offerUpdate(versionTag, releaseNotes, triggeredByUser);
             }
             break;
         default:
@@ -305,8 +305,7 @@ void PrismExternalUpdater::autoCheckTimerFired() const
     checkForUpdates(false);
 }
 
-void PrismExternalUpdater::offerUpdate(const QString& versionName,
-                                       const QString& versionTag,
+void PrismExternalUpdater::offerUpdate(const QString& versionTag,
                                        const QString& releaseNotes,
                                        const bool triggeredByUser) const
 {
@@ -325,7 +324,7 @@ void PrismExternalUpdater::offerUpdate(const QString& versionName,
         return;
     }
 
-    UpdateAvailableDialog dlg(BuildConfig.printableVersionString(), versionName, releaseNotes);
+    UpdateAvailableDialog dlg(BuildConfig.printableVersionString(), versionTag, releaseNotes);
 
     auto result = dlg.exec();
     qDebug() << "offer dlg result" << result;
