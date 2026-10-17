@@ -104,6 +104,16 @@ cmake --build --preset windows_msvc --config Release
 
 第一次設定會透過 vcpkg 編譯相依套件，需要比較久的時間。實際可行的建置流程以 `.github/workflows/build.yml` 為準。
 
+## 發佈新版本
+
+版本號以 **tag** 為準，程式的「關於」視窗與自動更新都使用它：
+
+1. 推送一個 tag，例如 `git tag v11.2.0 && git push origin v11.2.0`，`v` 大小寫皆可，之後的比較不分大小寫。CI 會編譯並建立草稿 Release。
+2. 或在 Actions 手動執行 **Build mlcmLauncher and Make Release**，在 `version` 欄位填入版本（例如 `v11.2.0`）。
+3. 從分支編譯而沒有填版本的是開發版，顯示為 `12.0.0-main` 這類格式，不會被當成正式版。
+
+自動更新會到本倉庫的 Releases 找版本號最大的正式版（預先發佈版不算），並依檔名挑選 `Windows-MSVC` 的安裝檔或免安裝版。
+
 ## 專案結構
 
 | 路徑 | 內容 |

@@ -32,6 +32,9 @@ class Version {
     Version(QString str) : m_string(std::move(str)) { parse(); }  // NOLINT(hicpp-explicit-conversions)
     Version() = default;
 
+    /// Version of a GitHub release tag. A leading "v"/"V" is not part of the version: "V11.1.2", "v11.1.2" and "11.1.2" are the same.
+    static Version fromReleaseTag(const QString& tag);
+
    private:
     struct Section {
         enum class Type : std::uint8_t { Null, Textual, Numeric, PreRelease };

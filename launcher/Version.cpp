@@ -98,6 +98,16 @@ void removeLeadingZeros(QString& s)
 }
 }  // namespace
 
+Version Version::fromReleaseTag(const QString& tag)
+{
+    QString normalized = tag.trimmed();
+    // "v11.1.2" / "V11.1.2": without this the letter is compared as text, and "v" sorts after "V"
+    if (normalized.size() > 1 && (normalized.at(0) == 'v' || normalized.at(0) == 'V') && normalized.at(1).isDigit()) {
+        normalized.remove(0, 1);
+    }
+    return Version(normalized);
+}
+
 void Version::parse()
 {
     auto len = m_string.size();

@@ -17,12 +17,18 @@ on:
       environment:
         description: Deployment environment to run under
         type: string
+      version:
+        description: Release version of this build, e.g. v11.1.2 (empty = the git tag of the checkout, if any)
+        type: string
   workflow_dispatch:
     inputs:
       build-type:
         description: Type of build (Debug or Release)
         type: string
         default: Debug
+      version:
+        description: Release version of this build, e.g. v11.1.2 (empty = development build)
+        type: string
 
 permissions: {}
 
@@ -91,8 +97,17 @@ jobs:
       ##
 
       - name: Configure project
+        shell: bash
+        env:
+          VERSION_OVERRIDE: ${{ inputs.version }}
         run: |
-          cmake --preset "$CMAKE_PRESET" -D VCPKG_HOST_TRIPLET="$VCPKG_TRIPLET" -D VCPKG_TARGET_TRIPLET="$VCPKG_TRIPLET"
+          # A build from a release tag takes its version from the tag by itself;
+          # a build from a branch gets it from the "version" input.
+          extra=()
+          if [ -n "$VERSION_OVERRIDE" ]; then
+            extra+=(-D "Launcher_VERSION_OVERRIDE=$VERSION_OVERRIDE")
+          fi
+          cmake --preset "$CMAKE_PRESET" -D VCPKG_HOST_TRIPLET="$VCPKG_TRIPLET" -D VCPKG_TARGET_TRIPLET="$VCPKG_TRIPLET" "${extra[@]}"
 
       - name: Run build
         run: |

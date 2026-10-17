@@ -182,6 +182,22 @@ class VersionTest : public QObject {
         QCOMPARE(v1 == v2, equal);
     }
 
+    void test_releaseTags()
+    {
+        // release tags are written with a lower or an upper case "v" in practice; that must not decide which one is newer
+        QVERIFY(Version::fromReleaseTag("V11.1.2") > Version::fromReleaseTag("v11.1.1"));
+        QVERIFY(Version::fromReleaseTag("v11.1.1") < Version::fromReleaseTag("V11.1.2"));
+        QVERIFY(Version::fromReleaseTag("V1.0.0") < Version::fromReleaseTag("v1.0.1"));
+        QVERIFY(Version::fromReleaseTag("v1.0.0") < Version::fromReleaseTag("V11.1.2"));
+        QVERIFY(Version::fromReleaseTag("V11.1.2") == Version::fromReleaseTag("11.1.2"));
+        QVERIFY(Version::fromReleaseTag("v12.0.0-pre1") < Version::fromReleaseTag("V12.0.0"));
+        QVERIFY(Version::fromReleaseTag("v11.10.0") > Version::fromReleaseTag("V11.9.9"));
+        QCOMPARE(Version::fromReleaseTag(" V11.1.2 ").toString(), QString("11.1.2"));
+        // not a version tag: left alone
+        QCOMPARE(Version::fromReleaseTag("verbose").toString(), QString("verbose"));
+        QCOMPARE(Version::fromReleaseTag("v").toString(), QString("v"));
+    }
+
     static void test_strict_weak_order()
     {
         // this tests the strict_weak_order
